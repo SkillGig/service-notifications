@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParse from "body-parser";
-import SampleRoutes from "./api/v1/routes/sample.routes.js";
+import NotificationRoutes from "./api/v1/routes/notifications.routes.js";
 
 const app = express();
 const port = 4024;
@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Expose-Headers", "Authorization");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, device-token, platform, user-type"
   );
 
   // Cache control headers
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/notifications", SampleRoutes);
+app.use("/notifications", NotificationRoutes);
 
 app.use("/", (req, res) => {
   res.json({

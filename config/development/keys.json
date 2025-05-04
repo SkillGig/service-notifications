@@ -33,5 +33,18 @@
         "secretKey": "KtHa/Gk7vCDQX0wrhMtuF3of0lqD7BjXMoGmdIgx"
       }
     }
+  },
+  "firebaseNotificationServiceConfig": {
+    "type": "service_account",
+    "project_id": "skillgig-pushnotifications",
+    "private_key_id": "fe005c5a25765977aa197f3e16dd042f5609f79b",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCpEv/rE6IKxIlJ\nAhtP44tulfaj54p/VJeRaeL4EEfFbQv89Ivf0Iyry8X2ftamtjQPjzpehqnlPt2I\nE7gup+vfjQtUU3Gi2Qu3DcP+SGyHe0psgzJjed3MgAWio+eZfK9l/OYnQ+m0j7Yy\ncJY/OzEWM/7t0iM/FESjDlAK5YF3gQuixm4XN5SsYwwqbFqIKJRAMV7e6+7Y33bF\nS7nCa/8FkSBtZLUtnPsPR6Kc+3TitytlfCaIkQ8WEPLnLznBdQvoVqNuwjYiRohY\n6qQKHYAxA0n1FFUNO9sPNwczBbmHAuBkThNcrxQzriN0qcKSsknvc6zbQhD/JfCl\nFYhYjfCZAgMBAAECggEAKuYPuiEyocHJRZV7wZLuG2KAgIjsuq8HgBVaSe+zjjPD\ncWzJGsJLFwHumkMHiqg7YGFKgZZwgCKpye+a8XeY4RFj+QLtF9EzaEBdZOUSaHPP\nZ+YIAHZ44PzwsRoeVvLsfBele/v+zdoS9AxeCvAlXclWmxgQ6l3lpmuowoMGDQBu\n8SD9dqnIlq457OIcEdjtkez/jzjvkTTgDyfipOwLY/Y9+FPJhI6iZHtOvJxyqOul\nvihDU7J0IPyI/pwmNRzS+jQsoz8mFhZV4ogaTjh75180dM0ev1PKwrQieF9Uwdo4\nkg+DOAE5FalvPsFQVQpsJ4fkSdCfrGoaZaXtgaZJawKBgQDa/Ey+wEbGDOAs+CJG\n1BWQT0pmWA4jVIF79UDfhClWtnYXlA1MeB0jh/RfCbgCFk9O0V1gJUbaY4GxmsKj\nPoWK3wrsD0bRgGy6EDz5XrRIe+liqIL9OJ1rwW3JceAh7z2gnb1LuZwymrwVdkBP\nyT7Na/oFb1pYLzH+LoyJXCcq1wKBgQDFpv37jSyhE6fnTOROruyyqAUhXfYVkOhN\nULtwbUhDo6txb4Kv/c0E45IOzyvX5LfAt1gvIU0uCEMv+gTTpFm4485VA49qzVX9\n9w2NA2ncvyz7GuDd1Ocw/9N95hFWc+RnEVTRlvtPSlhB60hLGaYWa7BXOXTN4VCD\nlSDSWKFCDwKBgQChdOQgwCNuYo/mmAytrDE59TwluUazRdsySeFK62aPSHhJah9k\nAit5xwOmDsRcxZYzxqnR+aoD2toE2NYpBi/v9ANZiOnuDYIcrVxHgEvsJXAuDZCG\novduO2921z8pxfrqMWMgMfm4Vd3W9Rj1uqtTSglNeIxj+GgjwK5dmFRIgQKBgGWG\n4e/VFJepARZO6PeB4xPiOsBpA38QcENGtQGLIROdfvNF1FuSgz1/qAbzZBIB6mGT\nzDhpYrvCgsCiLNiKE4xleBczPPgfgYxy2wMUPcymZvSVWeyY8Ci7QGfrRfyiizBm\nNqtyYqTYC33Q3dG12xqpNmuXl+gpVLJCaBmkbTEBAoGBAJC4JzJhv+pnuAndMxVp\nVjVJRlg9jIMNih0mv44BbvjXDRR2BrTwIdFv0/XyCqRWqSHV+UuSvdvh7yJ0JPAT\nKa4rwlARMfYVX/DAYiOxFZO8/mmGd3eaAuWI1y4yCaI0xs84wX7UqyT2yzY0H+gj\nb6uzHEG2zejxAgqvUpubuS2w\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-fbsvc@skillgig-pushnotifications.iam.gserviceaccount.com",
+    "client_id": "115305317244673573240",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40skillgig-pushnotifications.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
   }
 }
