@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  produceUserNotificationMessage,
   registerNewDeviceToken,
   sendPushNotificationToDevice,
 } from "../controllers/notifications.controller.js";
@@ -14,9 +15,14 @@ router.post(
 );
 
 router.post(
-  "/send-notification",
+  "/send-push-notification",
   authenticateUserTokenMiddleware,
   sendPushNotificationToDevice
 );
+
+router.post(
+  "/produce-user-notification",
+  produceUserNotificationMessage
+)
 
 export default router;

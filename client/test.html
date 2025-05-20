@@ -1,0 +1,22 @@
+<!-- test.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Test</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  </head>
+  <body>
+    <h1>Socket.IO Client Test</h1>
+    <script>
+      const socket = io("http://localhost:4024", {
+        transports: ["polling"],
+      });
+
+      socket.emit("join-room", "user-1");
+
+      socket.on("new-notification", (data) => {
+        console.log("Notification received:", data);
+      });
+    </script>
+  </body>
+</html>
