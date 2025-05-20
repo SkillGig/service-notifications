@@ -1,5 +1,6 @@
 import logger from "../../../config/logger.js";
 import admin from "../../../firebase/admin.js";
+import { producer } from "../../../kafka/kafkaClient.js";
 import { sendApiError, sendApiResponse } from "../helpers/api.helper.js";
 import {
   addUserDeviceToken,
@@ -54,7 +55,6 @@ export const sendPushNotificationToDevice = async (req, res) => {
       ...payload,
     });
 
-
     response.responses.forEach(async (resp, i) => {
       if (!resp.success) {
         const errorCode = resp.error.code;
@@ -69,7 +69,37 @@ export const sendPushNotificationToDevice = async (req, res) => {
       failureCount: response.failureCount,
     });
   } catch (err) {
-    console.error("Notification error:", err);
+    logger.error("Notification error:", err);
     return sendApiError(res, { message: "Failed to send notification" });
+  }
+};
+
+export const produceUserNotificationMessage = async (req, res) => {
+  try {
+    const { userId, title, body, actionUrl, type, source } = req.body;
+
+    await producer.send({
+      topic: "user-notifications",
+      messages: [
+        {
+          key: `user-${userId}`,
+          value: JSON.stringify({
+            userId,
+            title,
+            body,
+            actionUrl,
+            type,
+            source,
+          }),
+        },
+      ],
+    });
+
+    return sendApiResponse(res, {
+      notifyUser: "Notification message produced",
+    });
+  } catch (err) {
+    logger.error(err, "[produceUserNotificationMessage]");
+    return sendApiError(res, { error: "Failed to produce notification" });
   }
 };

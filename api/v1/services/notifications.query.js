@@ -58,3 +58,23 @@ export const deleteDeviceToken = async (deviceToken) => {
     throw err;
   }
 };
+
+export const saveNotificationToDB = async (
+  userId,
+  title,
+  body,
+  actionUrl,
+  type,
+  source
+) => {
+  const queryString = `
+    INSERT INTO user_notifications (user_id, title, body, action_url, type, source)
+    VALUES (?, ?, ?, ?, ?, ?);
+  `;
+  try {
+    return query(queryString, [userId, title, body, actionUrl, type, source]);
+  } catch (err) {
+    logger.error(err, `error being received: [saveNotificationToDB]`);
+    throw err;
+  }
+};

@@ -1,16 +1,43 @@
 import express from "express";
+import http from "http";
+import { Server } from "socket.io";
 import bodyParse from "body-parser";
 import NotificationRoutes from "./api/v1/routes/notifications.routes.js";
+import { pool } from "./config/db.js";
+import logger from "./config/logger.js";
+import { startKafkaConsumer } from "./kafka/consumer.js";
 
 const app = express();
 const port = 4024;
-import { pool } from "./config/db.js";
-import logger from "./config/logger.js";
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+export const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  logger.debug(`New client connected: ${socket.id}`);
+
+  socket.on("join-room", (roomId) => {
+    socket.join(roomId);
+    logger.debug(`Joined room: ${roomId}`);
+  });
+
+  socket.on("disconnect", () => {
+    logger.debug(`Client disconnected: ${socket.id}`);
+  });
+});
 
 app.use(bodyParse.json({ limit: "50mb" }));
 app.use(bodyParse.urlencoded({ extended: false }));
 
-// Set CORS and cache control headers
+// CORS and cache headers
 app.use((req, res, next) => {
   // CORS headers
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,29 +53,27 @@ app.use((req, res, next) => {
   res.header("Expires", "0");
   res.header("Pragma", "no-cache");
 
-  // Handle preflight requests
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
+  if (req.method === "OPTIONS") return res.status(200).end();
   next();
 });
 
 app.use("/notifications", NotificationRoutes);
 
 app.use("/", (req, res) => {
-  res.json({
-    message: "Notifications Service",
-  });
+  res.json({ message: "Notifications Service" });
 });
-app.listen(port, () => {
-  pool.getConnection((err, connection) => {
+
+server.listen(port, () => {
+  pool.getConnection((err) => {
     if (err) {
-      logger.error("Error connecting the Service-Notifications to DataBase");
+      logger.error("Error connecting Service-Notifications to database");
       process.exit(1);
     }
     logger.info(
       `Service-Notifications connected to the database and server is up and running on PORT: ${port}`
     );
+    startKafkaConsumer()
+      .then(() => logger.info("✅ Kafka consumer started successfully"))
+      .catch((err) => logger.error("❌ Failed to start Kafka consumer", err));
   });
 });
