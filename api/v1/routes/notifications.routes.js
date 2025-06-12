@@ -16,7 +16,6 @@ router.post(
 
 router.post(
   "/send-push-notification",
-  authenticateUserTokenMiddleware,
   sendPushNotificationToDevice
 );
 

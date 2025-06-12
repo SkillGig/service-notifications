@@ -6,7 +6,7 @@ import logger from "../../../config/logger.js";
 const nconf = readFileToNconf();
 
 export const authenticateUserTokenMiddleware = async (req, res, next) => {
-  const secret = nconf.get("accessTokenSecretForAdmin");
+  const secret = nconf.get("accessTokenSecret");
   const token = req.headers.authorization;
 
   try {

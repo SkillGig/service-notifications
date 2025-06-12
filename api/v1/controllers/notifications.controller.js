@@ -24,7 +24,7 @@ export const registerNewDeviceToken = async (req, res) => {
 };
 
 export const sendPushNotificationToDevice = async (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.body.userId;
   const userType = req.headers["user-type"];
   const { title, body, imageUrl, actionUrl } = req.body;
 
@@ -50,6 +50,9 @@ export const sendPushNotificationToDevice = async (req, res) => {
       },
     };
 
+    logger.debug(payload, `data being received: [theNotificationPayload]`);
+    logger.debug(tokens, `data being received: [deviceTokens]`);
+
     const response = await admin.messaging().sendEachForMulticast({
       tokens,
       ...payload,
@@ -63,6 +66,11 @@ export const sendPushNotificationToDevice = async (req, res) => {
         }
       }
     });
+
+    logger.debug(
+      response.responses,
+      `data being received: [response.responses]`
+    );
 
     return sendApiResponse(res, {
       successCount: response.successCount,

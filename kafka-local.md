@@ -34,3 +34,11 @@ Stop and Clean Up
 To clear all Kafka data:
 
 ```docker-compose down -v```
+
+'brew services start kafka'
+
+```kafka-topics \  --create \                                         
+  --bootstrap-server localhost:9092 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic user-notifications```

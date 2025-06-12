@@ -36,6 +36,7 @@ export const addUserDeviceToken = async (
 };
 
 export const findDeviceTokenForUserId = async (userId, userType) => {
+  logger.debug(userId, userType, `data being received: [findDeviceTokenForUserId]`);
   const queryString = `SELECT device_token as deviceToken FROM user_device_tokens WHERE user_id = ? AND user_type = ?;`;
 
   try {
