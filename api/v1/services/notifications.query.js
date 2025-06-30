@@ -36,7 +36,11 @@ export const addUserDeviceToken = async (
 };
 
 export const findDeviceTokenForUserId = async (userId, userType) => {
-  logger.debug(userId, userType, `data being received: [findDeviceTokenForUserId]`);
+  logger.debug(
+    userId,
+    userType,
+    `data being received: [findDeviceTokenForUserId]`
+  );
   const queryString = `SELECT device_token as deviceToken FROM user_device_tokens WHERE user_id = ? AND user_type = ?;`;
 
   try {
@@ -60,20 +64,45 @@ export const deleteDeviceToken = async (deviceToken) => {
   }
 };
 
-export const saveNotificationToDB = async (
+export const saveNotificationToDB = async ({
   userId,
+  roadmapCourseId,
+  sectionId,
+  moduleWeek,
+  contentRefId,
   title,
   body,
   actionUrl,
   type,
-  source
-) => {
+  source,
+}) => {
   const queryString = `
-    INSERT INTO user_notifications (user_id, title, body, action_url, type, source)
-    VALUES (?, ?, ?, ?, ?, ?);
+    INSERT INTO user_notifications (
+      user_id,
+      roadmap_course_id,
+      section_id,
+      module_week, 
+      content_ref_id,
+      title,
+      body,
+      action_url,
+      type,
+      source
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
   `;
   try {
-    return query(queryString, [userId, title, body, actionUrl, type, source]);
+    return query(queryString, [
+      userId,
+      roadmapCourseId,
+      sectionId,
+      moduleWeek,
+      contentRefId,
+      title,
+      body,
+      actionUrl,
+      type,
+      source,
+    ]);
   } catch (err) {
     logger.error(err, `error being received: [saveNotificationToDB]`);
     throw err;

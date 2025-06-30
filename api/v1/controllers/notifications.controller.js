@@ -84,7 +84,18 @@ export const sendPushNotificationToDevice = async (req, res) => {
 
 export const produceUserNotificationMessage = async (req, res) => {
   try {
-    const { userId, title, body, actionUrl, type, source } = req.body;
+    const {
+      userId,
+      roadmapCourseId,
+      sectionId,
+      moduleWeek,
+      contentRefId,
+      title,
+      body,
+      actionUrl,
+      type,
+      source,
+    } = req.body;
 
     await producer.send({
       topic: "user-notifications",
@@ -93,6 +104,10 @@ export const produceUserNotificationMessage = async (req, res) => {
           key: `user-${userId}`,
           value: JSON.stringify({
             userId,
+            roadmapCourseId,
+            sectionId,
+            moduleWeek,
+            contentRefId,
             title,
             body,
             actionUrl,
