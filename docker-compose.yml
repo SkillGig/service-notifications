@@ -19,6 +19,13 @@ services:
       CLUSTER_ID: "kraft-cluster-01"
     volumes:
       - kafka-data:/var/lib/kafka/data
+      - ./kafka-init.sh:/kafka-init.sh
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        "/etc/confluent/docker/run & sleep 20 && sh /kafka-init.sh && wait",
+      ]
 
 volumes:
   kafka-data:
