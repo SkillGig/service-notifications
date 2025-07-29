@@ -1,44 +1,42 @@
 version: "3.8"
 
 services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
   kafka:
     image: confluentinc/cp-kafka:7.3.0
     container_name: kafka
     ports:
       - "9092:9092"
-      - "9093:9093"
+    depends_on:
+      - zookeeper
     environment:
-      # KRaft settings
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: "broker,controller"
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
-
-      # Listeners
-      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
-      # Replace ${EC2_PUBLIC_IP} with your EC2 instance's public IP or DNS
-      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://${EC2_PUBLIC_IP}:9092"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
-      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
-      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
-
-      # Storage
-      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
-      CLUSTER_ID: "kraft-cluster-01"
-
-      # Additional settings for stability
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     volumes:
       - kafka-data:/var/lib/kafka/data
       - ./kafka-init.sh:/kafka-init.sh
-    entrypoint:
-      [
-        "/bin/sh",
-        "-c",
-        "export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):9092 && /etc/confluent/docker/run & sleep 20 && sh /kafka-init.sh && wait",
-      ]
+    healthcheck:
+      test:
+        ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   kafka-data:
