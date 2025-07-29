@@ -18,8 +18,8 @@ module.exports = {
       },
       env_production: {
         NODE_ENV: "production",
-        // EC2 Kafka settings - this will use the EC2's public IP
-        KAFKA_BROKERS: "${EC2_PUBLIC_IP}:9092",
+        // Kafka settings will be set by the startup script
+        KAFKA_BROKERS: process.env.KAFKA_BROKERS || "localhost:9092",
       },
       // Ensure the logs directory exists
       setup: "mkdir -p ./logs",
